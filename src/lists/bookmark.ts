@@ -4,6 +4,7 @@ import {
   ListItem,
   BasicList,
   Neovim,
+  Uri,
 } from 'coc.nvim'
 import DB from '../util/db'
 
@@ -47,7 +48,7 @@ export default class BookmarkList extends BasicList {
           label: `${path.toString()} line: ${lnum}\t\t${annotation ? annotation : ''}`,
           filterText: annotation + path,
           data: Object.assign({}, { path, bookmark }),
-          location: path
+          location: Uri.file(path).toString()
         })
       }
     }
