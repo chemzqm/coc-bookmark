@@ -16,8 +16,15 @@ export default class DB {
   public async load(): Promise<BookmarkItemDB> {
     let stat = await statAsync(this.file)
     if (!stat || !stat.isFile()) return new Map()
-    let content = await readFile(this.file)
-    return new Map(JSON.parse(content))
+    const content = await readFile(this.file)
+    const map: BookmarkItemDB = new Map(JSON.parse(content))
+    for (let p of map.keys()) {
+      const s = await statAsync(p)
+      if (!s || !s.isFile())
+        map.delete(p)
+    }
+
+    return map as BookmarkItemDB
   }
 
   public async add(data: BookmarkItem, path: string): Promise<void> {
