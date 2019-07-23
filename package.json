@@ -24,10 +24,30 @@
     "configuration": {
       "type": "object",
       "properties": {
+        "bookmark.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to enable this extension"
+        },
         "bookmark.maxsize": {
           "type": "number",
           "default": 5000,
-          "description": "maxsize of bookmark"
+          "description": "Maxsize of bookmark"
+        },
+        "bookmark.sign": {
+          "type": "string",
+          "default": "⚑",
+          "description": "Bookmark icon for sign column"
+        },
+        "bookmark.signFg": {
+          "type": "string",
+          "default": "",
+          "description": "foreground color of bookmark sign"
+        },
+        "bookmark.signBg": {
+          "type": "string",
+          "default": "",
+          "description": "background color of bookmark sign"
         }
       }
     },

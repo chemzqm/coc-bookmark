@@ -10,25 +10,40 @@ Inspired by [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks)
 :CocInstall coc-bookmark
 ```
 
-## Features
+## Features/Notes
 
-- Toggle bookmarks per line ⚑
-- Add annotations per line ☰
-- Navigate all bookmarks with quickfix window
-- Bookmarks will be restored on next startup
-- Bookmarks per working directory (optional)
-- Fully customisable (signs, sign column, highlights, mappings)
-- Integrates with Unite's quickfix source if installed
-- Integrates with ctrlp.vim if installed
-- Works independently from vim marks
+- Toggle bookmark for a line
+- Add annotation for a line
+- Navigate all bookmarks with CocList
+- Bookmark will be deleted if the line was changed
 
 ## Configuration
 
 ```jsonc
+"bookmark.enable": {
+    "type": "boolean",
+    "default": true,
+    "description": "Whether to enable this extension"
+},
 "bookmark.maxsize": {
     "type": "number",
     "default": 5000,
-    "description": "maxsize of bookmark"
+    "description": "Maxsize of bookmark"
+},
+"bookmark.sign": {
+    "type": "string",
+    "default": "⚑",
+    "description": "Bookmark icon for sign column"
+},
+"bookmark.signFg": {
+    "type": "string",
+    "default": "",
+    "description": "foreground color of bookmark sign"
+},
+"bookmark.signBg": {
+    "type": "string",
+    "default": "",
+    "description": "background color of bookmark sign"
 }
 ```
 
@@ -38,6 +53,18 @@ more information, see [package.json](https://github.com/voldikss/coc-bookmark/bl
 
 - `:CocCommand bookmark.toggle`: create/delete a bookmark
 - `:CocCommand bookmark.annotate`: create a bookmark with annotation
+
+## Keymaps
+
+- Normal mode: `<Plug>(coc-bookmark-next)`
+- Normal mode: `<Plug>(coc-bookmark-prev)`
+- Normal mode: `<Plug>(coc-bookmark-toggle)`
+- Normal mode: `<Plug>(coc-bookmark-annotate)`
+
+```vim
+nmap <Leader>bj <Plug>(coc-bookmark-next)
+nmap <Leader>bk <Plug>(coc-bookmark-prev)
+```
 
 ## CocList
 
@@ -51,6 +78,3 @@ run `:CocList bookmark` to open the bookmark
 ## License
 
 MIT
-
-## Screenshots
-

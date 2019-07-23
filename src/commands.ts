@@ -76,4 +76,23 @@ export default class Bookmark {
       }
     }
   }
+
+  public async updateSign(): Promise<void> {
+    const data = await this.db.load()
+    const { filepath } = await this.getDocInfo()
+    const bookmarks = data.get(filepath)
+    await this.nvim.command('sign unplace 2019')
+    if (bookmarks) {
+      for (const bookmark of bookmarks) {
+        const { lnum, line } = bookmark
+        const currLine = await this.nvim.call('getline', [lnum])
+        if (currLine.trim() !== line.trim()) {
+          await this.db.delete(filepath, lnum)
+          continue
+        }
+        const cmd = `exe ":sign place 2019 line=${lnum} name=BookMark file=" . expand("%:p")`
+        this.nvim.command(cmd, true)
+      }
+    }
+  }
 }

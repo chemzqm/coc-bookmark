@@ -2,7 +2,8 @@ import {
   commands,
   ExtensionContext,
   listManager,
-  workspace
+  workspace,
+  events
 } from 'coc.nvim'
 import { mkdirAsync, statAsync } from './util/io'
 import DB from './util/db'
@@ -26,6 +27,31 @@ export async function activate(context: ExtensionContext): Promise<void> {
   if (!stat || !stat.isDirectory()) {
     await mkdirAsync(storagePath)
   }
+
+  const sign = config.get<string>('sign', '⚑')
+  const signFg = config.get<string>('signFg', '')
+  const signBg = config.get<string>('signBg', '')
+  if (signFg && signBg)
+    await nvim.command(`hi BookMarkHI guifg=${signFg} guibg=${signBg}`)
+  else
+    await nvim.command('hi def link BookMarkHI Identifier')
+  nvim.command(`sign define BookMark text=${sign} texthl=BookMarkHI`, true)
+
+  workspace.onDidOpenTextDocument(async () => {
+    await bookmark.updateSign()
+  }, null, subscriptions)
+
+  workspace.onDidChangeTextDocument(async () => {
+    await bookmark.updateSign()
+  }, null, subscriptions)
+
+  events.on('CursorHold', async () => {
+    await bookmark.updateSign()
+  }, null, subscriptions)
+
+  events.on('BufEnter', async () => {
+    await bookmark.updateSign()
+  }, null, subscriptions)
 
   subscriptions.push(
     workspace.registerKeymap(
