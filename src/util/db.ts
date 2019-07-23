@@ -14,7 +14,7 @@ export default class DB {
   }
 
   public async load(): Promise<BookmarkItemDB> {
-    let stat = await statAsync(this.file)
+    const stat = await statAsync(this.file)
     if (!stat || !stat.isFile()) return new Map()
     const content = await readFile(this.file)
     const map: BookmarkItemDB = new Map(JSON.parse(content))

@@ -57,7 +57,7 @@ export default class BookmarkList extends BasicList {
   public doHighlight(): void {
     let { nvim } = this
     nvim.pauseNotification()
-    nvim.command('syntax match BookmarkFilePath /\\vfile:\\/\\/.*line: \\d+/', true)
+    nvim.command('syntax match BookmarkFilePath /\\v^.*line: \\d+/', true)
     nvim.command('syntax match BookmarkAnnotation /\\v\\t.*$/', true)
     nvim.command('highlight default link BookmarkFilePath String', true)
     nvim.command('highlight default link BookmarkAnnotation Statement', true)

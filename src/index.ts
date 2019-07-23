@@ -44,6 +44,22 @@ export async function activate(context: ExtensionContext): Promise<void> {
     ))
 
   subscriptions.push(
+    workspace.registerKeymap(
+      ['n'],
+      'bookmark-next',
+      async () => await bookmark.find('next'),
+      { sync: false }
+    ))
+
+  subscriptions.push(
+    workspace.registerKeymap(
+      ['n'],
+      'bookmark-prev',
+      async () => await bookmark.find('prev'),
+      { sync: false }
+    ))
+
+  subscriptions.push(
     commands.registerCommand(
       'bookmark.toggle',
       async () => await bookmark.toggle()

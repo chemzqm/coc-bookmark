@@ -1,4 +1,6 @@
 
+export type BookmarkItemDB = Map<string, BookmarkItem[]>
+
 export interface BookmarkItem {
   lnum: number
   line: string
@@ -6,9 +8,9 @@ export interface BookmarkItem {
   annotation?: string
 }
 
-// export interface BookmarkItemDB {
-//   bookmark: BookmarkItem
-//   path: string
-// }
-
-export type BookmarkItemDB = Map<string, BookmarkItem[]>
+export interface DocInfo {
+  lnum: number
+  line: string
+  filetype: string
+  filepath: string
+}
