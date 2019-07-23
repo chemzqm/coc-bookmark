@@ -53,22 +53,26 @@ export default class Bookmark {
   public async find(direction: string): Promise<void> {
     const data = await this.db.load()
     const { filepath, lnum } = await this.getDocInfo()
-    const file = data.get(filepath)
-    if (file) {
+    const bookmark = data.get(filepath)
+    if (bookmark) {
       if (direction === 'next') {
-        for (const bookmark of file)
-          if (bookmark.lnum > lnum)
+        for (const blnum of bookmark.map(b => b.lnum).sort())
+          if (blnum > lnum) {
             workspace.moveTo({
-              line: Math.max(bookmark.lnum - 1, 0),
+              line: Math.max(blnum - 1, 0),
               character: 0
             })
+            return
+          }
       } else {
-        for (const bookmark of file.reverse())
-          if (bookmark.lnum < lnum)
+        for (const blnum of bookmark.map(b => b.lnum).sort().reverse())
+          if (blnum < lnum) {
             workspace.moveTo({
-              line: Math.max(bookmark.lnum - 1, 0),
+              line: Math.max(blnum - 1, 0),
               character: 0
             })
+            return
+          }
       }
     }
   }
