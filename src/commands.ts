@@ -42,11 +42,12 @@ export default class Bookmark {
     const { lnum, filepath } = await this.getDocInfo()
     const bookmarks = data.get(filepath)
     if (bookmarks) {
-      if (bookmarks.filter(b => b.lnum === lnum).length !== 0)
+      if (bookmarks.filter(b => b.lnum === lnum).length !== 0) {
         await this.delete()
-    } else {
-      await this.create('')
+        return
+      }
     }
+    await this.create('')
   }
 
   public async find(direction: string): Promise<void> {
